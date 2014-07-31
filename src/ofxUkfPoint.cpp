@@ -33,7 +33,7 @@ void ofxUkfPoint_<T, D>::init(T smoothness, T rapidness) {
 
 template <class T, int D>
 void ofxUkfPoint_<T, D>::update(const ofVec4f& p) {
-	matrix<double> z(D, 1);
+	matrix<T> z(D, 1);
 	// copy p to z
 	for( int i = 0; i < D; i++ ) {
 		z(i, 0) = p[i];
