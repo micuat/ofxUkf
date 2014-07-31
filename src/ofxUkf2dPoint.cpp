@@ -23,6 +23,23 @@ void ofxUkf2dPoint_<T>::init(T smoothness, T rapidness) {
 	UKF<T>::P = In; // state covariance
 	UKF<T>::Q = (q * q) * In; // covariance of process	(size must be nxn)
 	UKF<T>::R = (r * r) * Im; // covariance of measurement (size must be mxm)
+	
+	x = math::matrix<T>(4, 1);
+}
+
+template <class T>
+void ofxUkf2dPoint_<T>::update(const ofVec2f& p) {
+	matrix<double> z(2, 1);
+	z(0, 0) = p.x;
+	z(1, 0) = p.y;
+	UKF<T>::ukf(x, z);
+}
+
+template <class T>
+ofVec2f ofxUkf2dPoint_<T>::getEstimation()
+{
+	matrix<T> w = measurement_function(x);
+	return ofVec2f(w(0, 0), w(1, 0));
 }
 
 template <class T>

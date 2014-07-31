@@ -6,4 +6,5 @@
 
 #pragma once
 
+#include "ofMain.h"
 #include "UKF.h"

@@ -10,8 +10,12 @@
 
 template <class T>
 class ofxUkf2dPoint_ : public UKF<T> {
+	math::matrix<T> x;
 public:
 	void init(T smoothness = 0.1, T rapidness = 0.1); // smaller is more smooth/rapid
+	void update(const ofVec2f&);
+	ofVec2f getEstimation();
+	
 	math::matrix<T> state_function(math::matrix<T>&);
 	math::matrix<T> measurement_function(math::matrix<T>&);
 };

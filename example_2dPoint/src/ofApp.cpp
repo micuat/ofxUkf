@@ -1,34 +1,31 @@
 #include "ofApp.h"
 
-using namespace math;
-
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ukf.init(0.1, 0.1);
-	x = matrix<double>(4, 1);
+	ukf.init(0.001, 0.1);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	matrix<double> z(2, 1);
-	z(0, 0) = mouseX;
-	z(1, 0) = mouseY;
-	point = ofVec2f(z(0, 0), z(1, 0));
+	point = ofVec2f(mouseX, mouseY);
 	line.addVertex(point);
-	ukf.ukf(x, z);
-	matrix<double> w = ukf.measurement_function(x);
-	predicted.addVertex(ofVec2f(w(0, 0), w(1, 0)));
+	ukf.update(point);
+	ofVec2f w = ukf.getEstimation();
+	predicted.addVertex(w);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackground(0);
 	ofSetColor(255);
-	line.draw();
-	ofSetColor(ofColor::red);
 	predicted.draw();
+	ofDrawBitmapString("Prediction", 50, 50);
+	
+	ofSetColor(ofColor::red);
+	line.draw();
 	ofNoFill();
 	ofCircle(point, 100);
+	ofDrawBitmapString("Measurement", 50, 65);
 }
 
 //--------------------------------------------------------------

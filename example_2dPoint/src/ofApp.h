@@ -21,7 +21,6 @@ public:
 	void gotMessage(ofMessage msg);
 	
 	ofxUkf2dPoint ukf;
-	math::matrix<double> x;
 	ofPolyline predicted, line;
 	ofVec2f point;
 };
