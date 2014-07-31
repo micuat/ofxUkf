@@ -1,20 +1,22 @@
 #include "ofApp.h"
 
+using namespace math;
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ukf.init(0.1, 0.1);
-	x = Matrix(4, 1);
+	x = matrix<double>(4, 1);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	Matrix z(2, 1);
+	matrix<double> z(2, 1);
 	z(0, 0) = mouseX;
 	z(1, 0) = mouseY;
 	point = ofVec2f(z(0, 0), z(1, 0));
 	line.addVertex(point);
 	ukf.ukf(x, z);
-	Matrix w = ukf.measurement_function(x);
+	matrix<double> w = ukf.measurement_function(x);
 	predicted.addVertex(ofVec2f(w(0, 0), w(1, 0)));
 }
 

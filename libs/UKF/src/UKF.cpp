@@ -1,22 +1,20 @@
 #include "UKF.h"
 
-typedef double Type;
+using namespace math;
 
-Matrix sigmas(Matrix x, Matrix P, Type c);
-Matrix Cholesky(Matrix A);
-
-void UKF::ukf( Matrix& x, const Matrix z)
+template <class T>
+void UKF<T>::ukf( matrix<T>& x, const matrix<T>& z)
 {
 	const int L=2*n+1;
-	const Type alpha = 1e-3;                                 //default, tunable
-	const Type ki = 0.0;                                     //default, tunable
-	const Type beta = 2.0;                                   //default, tunable
-	const Type lambda = (alpha*alpha)*(n+ki)-n;              //scaling factor
-	Type c = n+lambda;                                 //scaling factor
+	const T alpha = 1e-3;                                 //default, tunable
+	const T ki = 0.0;                                     //default, tunable
+	const T beta = 2.0;                                   //default, tunable
+	const T lambda = (alpha*alpha)*(n+ki)-n;              //scaling factor
+	T c = n+lambda;                                 //scaling factor
 
 	/* weight equations are found in the upper part of http://www.cslu.ogi.edu/nsel/ukf/node6.html */
-	Matrix Wm(1,L);	//weights for means	
-	Matrix Wc = Wm;	//weights for covariance
+	matrix<T> Wm(1,L);	//weights for means	
+	matrix<T> Wc = Wm;	//weights for covariance
 	Wm(0,0) = lambda/c;
 	Wc(0,0) = lambda/c+(1-(alpha*alpha)+beta);
 	for (unsigned int k=1; k<L; k++)
@@ -25,15 +23,15 @@ void UKF::ukf( Matrix& x, const Matrix z)
 		Wc(0,k) = 0.5/c;
 	}
 	c = sqrt(c);
-	Matrix X = sigmas(x, P, c);	//sigma points around x
+	matrix<T> X = sigmas(x, P, c);	//sigma points around x
 	
 	/* unscented transformation (ut) of process */
-	Matrix x1(n,1);
-	Matrix X1(n,L);
+	matrix<T> x1(n,1);
+	matrix<T> X1(n,L);
 	for(unsigned int k=0; k<L; k++)
 	{
-		Matrix Xcol(n,1);
-		Matrix X1col(n,1);	/* temp vectors, not used in matlab */
+		matrix<T> Xcol(n,1);
+		matrix<T> X1col(n,1);	/* temp vectors, not used in matlab */
 
 		for (unsigned int i=0; i<n; i++)
 		{
@@ -49,24 +47,24 @@ void UKF::ukf( Matrix& x, const Matrix z)
 			X1(i,k) = X1col(i,0);	// put back the output column
 		}	
 	}
-	Matrix X2(n,L);
+	matrix<T> X2(n,L);
 	for (unsigned int k=0; k<L; k++)
 		for (unsigned int i=0; i<n; i++)
 		{
 			X2(i,k) = X1(i,k) - x1(i,0);	//X2.Column(k) = X1.Column(k) - x1;
 		}
-	Matrix diagWm(L,L);
+	matrix<T> diagWm(L,L);
 	for(unsigned int k=0; k<L; k++)
 		diagWm(k,k) = Wm(0,k);
-	Matrix P1 = X2 * diagWm * ~X2 + Q;	/* ~ means transpose */
+	matrix<T> P1 = X2 * diagWm * ~X2 + Q;	/* ~ means transpose */
 
 	/* unscented transformation (ut) of measurements */
-	Matrix z1(m,1);
-	Matrix Z1(m,L);
+	matrix<T> z1(m,1);
+	matrix<T> Z1(m,L);
 	for(unsigned int k=0; k<L; k++)
 	{
-		Matrix X1col(n,1);
-		Matrix Z1col(m,1);	/* temp vectors, not used in matlab */
+		matrix<T> X1col(n,1);
+		matrix<T> Z1col(m,1);	/* temp vectors, not used in matlab */
 
 		for (unsigned int i=0; i<n; i++)
 		{
@@ -82,33 +80,34 @@ void UKF::ukf( Matrix& x, const Matrix z)
 			Z1(i,k) = Z1col(i,0);	// put back the output column
 		}	
 	}
-	Matrix Z2(m,L);
+	matrix<T> Z2(m,L);
 	for (unsigned int k=0; k<L; k++)
 		for (unsigned int i=0; i<m; i++)
 		{
 			Z2(i,k) = Z1(i,k) - z1(i,0);	//Z2.Column(k) = Z1.Column(k) - z1;
 		}
-	Matrix diagWc(L,L);
+	matrix<T> diagWc(L,L);
 	for(unsigned int k=0; k<L; k++)
 		diagWc(k,k) = Wc(0,k);
-	Matrix P2 = Z2 * diagWc * ~Z2 + R;	
+	matrix<T> P2 = Z2 * diagWc * ~Z2 + R;	
 
-	Matrix P12 = X2 * diagWc * ~Z2;	//transformed cross-covariance
-	Matrix K = P12 * !P2;
+	matrix<T> P12 = X2 * diagWc * ~Z2;	//transformed cross-covariance
+	matrix<T> K = P12 * !P2;
 	x = x1+K*(z-z1);                              //state update
 	//cout << x << endl << K << endl;
 	P = P1-K*~P12;                                //covariance update
 	//cout << P << endl << endl;
 }
 
-Matrix sigmas(Matrix x, Matrix P, Type c)
+template <class T>
+matrix<T> UKF<T>::sigmas(matrix<T>& x, matrix<T>& P, T c)
 {
 	const int n = P.RowNo();
 	const int L=2*n+1;
-	Matrix Chol = Cholesky(P);
-	Matrix A = c * Chol;	/* doesn't need transpose here like matlab b/c Chol gives a lower (not upper) triangle matrix */
+	matrix<T> Chol = Cholesky(P);
+	matrix<T> A = c * Chol;	/* doesn't need transpose here like matlab b/c Chol gives a lower (not upper) triangle matrix */
 			
-	Matrix X(n,L);
+	matrix<T> X(n,L);
 	unsigned int k=0;
 	{
 		for (unsigned int i=0; i<n; i++)
@@ -136,12 +135,13 @@ Matrix sigmas(Matrix x, Matrix P, Type c)
 
 /* courtesy of http://www.saiensu.co.jp/book_support/4-7819-0855-1/cholesky.txt and http://chips.ncsu.edu/~luw/version2.1.5/HTML_SOURCE/cholesky.c.html */
 // returns a lower triangle matrix
-Matrix Cholesky(Matrix A)
+template <class T>
+matrix<T> UKF<T>::Cholesky(matrix<T>& A)
 {
 	const int n = A.RowNo();
-	Matrix Chol(n,n);
-	Type* s = new Type[n];
-	Type ss;
+	matrix<T> Chol(n,n);
+	T* s = new T[n];
+	T ss;
 	unsigned int i,j,k;
 	for (j=0; j<n; j++)
 	{
@@ -166,7 +166,7 @@ Matrix Cholesky(Matrix A)
 		}
 		if (fabs(s[j])<0.000001)
 		{
-			cout << "ERROR: ukf.cpp Cholesky - Matrix not positive definite\n";
+			cout << "ERROR: ukf.cpp Cholesky - matrix<T> not positive definite\n";
 			delete [] s;
 			return A;	// ERROR
 		}
@@ -179,14 +179,17 @@ Matrix Cholesky(Matrix A)
 	return Chol;
 }
 
-//Matrix UKF::state_function (Matrix x)	// override this function with inherited UKF class
+//matrix<T> UKF::state_function (matrix<T>& x)	// override this function with inherited UKF class
 //{
 //	cout << "UKF: Please form your own state function!" << endl;
 //	return x;
 //}
 //
-//Matrix UKF::measurement_function (Matrix x)	// override this function with inherited UKF class
+//matrix<T> UKF::measurement_function (matrix<T>& x)	// override this function with inherited UKF class
 //{
 //	cout << "UKF: Please form your own measurement function!" << endl;
 //	return x;
 //}
+
+// instantiation
+template class UKF<double>;
