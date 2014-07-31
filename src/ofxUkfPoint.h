@@ -6,18 +6,19 @@
 
 #pragma once
 
-#include <ofxUkf.h>
+#include "ofxUkf.h"
 
-template <class T>
-class ofxUkf2dPoint_ : public UKF<T> {
+template <class T, int D>
+class ofxUkfPoint_ : public UKF<T> {
 	math::matrix<T> x;
 public:
 	void init(T smoothness = 0.1, T rapidness = 0.1); // smaller is more smooth/rapid
-	void update(const ofVec2f&);
-	ofVec2f getEstimation();
+	void update(const ofVec4f&);
+	ofVec4f getEstimation();
 	
 	math::matrix<T> state_function(math::matrix<T>&);
 	math::matrix<T> measurement_function(math::matrix<T>&);
 };
 
-typedef ofxUkf2dPoint_<double> ofxUkf2dPoint;
+typedef ofxUkfPoint_<double, 2> ofxUkfPoint2d;
+typedef ofxUkfPoint_<double, 3> ofxUkfPoint3d;

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9AB48BE08F27B3A2ED7989E8 /* UKF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1943AAC55FDAF2E945CE1D6D /* UKF.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
-		D6116DAF424F61670B07EE2A /* ofxUkf2dPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B6DAD18E661B6413F4483E3 /* ofxUkf2dPoint.cpp */; };
+		D6116DAF424F61670B07EE2A /* ofxUkfPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B6DAD18E661B6413F4483E3 /* ofxUkfPoint.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -63,7 +63,7 @@
 /* Begin PBXFileReference section */
 		1943AAC55FDAF2E945CE1D6D /* UKF.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = UKF.cpp; path = ../../../addons/ofxUkf/libs/UKF/src/UKF.cpp; sourceTree = SOURCE_ROOT; };
 		26E97426A4EBF981B6C7FE5D /* ofxUkf.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUkf.h; path = ../../../addons/ofxUkf/src/ofxUkf.h; sourceTree = SOURCE_ROOT; };
-		4B6DAD18E661B6413F4483E3 /* ofxUkf2dPoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUkf2dPoint.cpp; path = ../../../addons/ofxUkf/src/ofxUkf2dPoint.cpp; sourceTree = SOURCE_ROOT; };
+		4B6DAD18E661B6413F4483E3 /* ofxUkfPoint.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUkfPoint.cpp; path = ../../../addons/ofxUkf/src/ofxUkfPoint.cpp; sourceTree = SOURCE_ROOT; };
 		6F5B758530BA0672BBC64F6F /* matrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matrix.h; path = ../../../addons/ofxUkf/libs/UKF/include/matrix.h; sourceTree = SOURCE_ROOT; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		CF90D3EAC9A1FF1A36CC18C9 /* UKF.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = UKF.h; path = ../../../addons/ofxUkf/libs/UKF/include/UKF.h; sourceTree = SOURCE_ROOT; };
@@ -89,7 +89,7 @@
 		E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		E7E077E715D3B6510020DFD4 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
-		F783CB6901EFB451285B7869 /* ofxUkf2dPoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUkf2dPoint.h; path = ../../../addons/ofxUkf/src/ofxUkf2dPoint.h; sourceTree = SOURCE_ROOT; };
+		F783CB6901EFB451285B7869 /* ofxUkfPoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUkfPoint.h; path = ../../../addons/ofxUkf/src/ofxUkfPoint.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +141,8 @@
 			isa = PBXGroup;
 			children = (
 				26E97426A4EBF981B6C7FE5D /* ofxUkf.h */,
-				4B6DAD18E661B6413F4483E3 /* ofxUkf2dPoint.cpp */,
-				F783CB6901EFB451285B7869 /* ofxUkf2dPoint.h */,
+				4B6DAD18E661B6413F4483E3 /* ofxUkfPoint.cpp */,
+				F783CB6901EFB451285B7869 /* ofxUkfPoint.h */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -347,7 +347,7 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
-				D6116DAF424F61670B07EE2A /* ofxUkf2dPoint.cpp in Sources */,
+				D6116DAF424F61670B07EE2A /* ofxUkfPoint.cpp in Sources */,
 				9AB48BE08F27B3A2ED7989E8 /* UKF.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

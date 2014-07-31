@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxUkf2dPoint.h"
+#include "ofxUkfPoint.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,7 +20,7 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
-	ofxUkf2dPoint ukf;
+	ofxUkfPoint2d ukf;
 	ofPolyline predicted, line;
 	ofVec2f point;
 };
