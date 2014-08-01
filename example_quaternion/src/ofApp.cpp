@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ukf.init(0.00001, 1);
+	ukf.init(0.001, 0.1);
 }
 
 //--------------------------------------------------------------
@@ -15,11 +15,23 @@ void ofApp::update(){
 	ofQuaternion q;
 	q = m.getRotate();
 	
-	ukf.update(q);
-	ofQuaternion qPredicted = ukf.getEstimation();
+	ofVec3f euler = q.getEuler();
+	for( int i = 0; i < 3; i++ ) {
+		float rev = floorf((eulerPrev[i] + 180) / 360.f) * 360;
+		euler[i] += rev;
+		if( euler[i] < -90 + rev && eulerPrev[i] > 90 + rev ) euler[i] += 360;
+		else if( euler[i] > 90 + rev && eulerPrev[i] < -90 + rev ) euler[i] -= 360;
+	}
+	
+	ukf.update(euler);
+	ofVec3f eulerPredicted = ukf.getEstimation();
 	
 	mPredicted.makeIdentityMatrix();
-	mPredicted.setRotate(qPredicted);
+	mPredicted.rotate(eulerPredicted.x, 1, 0, 0);
+	mPredicted.rotate(eulerPredicted.z, 0, 0, 1);
+	mPredicted.rotate(eulerPredicted.y, 0, 1, 0);
+	
+	eulerPrev = euler;
 	//ofLogWarning() << q;
 	//ofLogWarning() << qPredicted;
 }
@@ -30,15 +42,15 @@ void ofApp::draw(){
 	
 	cam.begin();
 	ofPushMatrix();
-	ofTranslate(-200, 0, 0);
+	//ofTranslate(-100, 0, 0);
 	glMultMatrixf((GLfloat*)m.getPtr());
 	ofDrawAxis(100);
 	ofPopMatrix();
 	
 	ofPushMatrix();
-	ofTranslate(200, 0, 0);
+	//ofTranslate(100, 0, 0);
 	glMultMatrixf((GLfloat*)mPredicted.getPtr());
-	ofDrawAxis(100);
+	ofDrawAxis(200);
 	ofPopMatrix();
 	cam.end();
 }
