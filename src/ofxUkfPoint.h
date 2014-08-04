@@ -15,6 +15,7 @@ public:
 	void init(T smoothness = 0.1, T rapidness = 0.1); // smaller is more smooth/rapid
 	void update(const ofVec4f&);
 	ofVec4f getEstimation();
+	ofVec4f getVelocity();
 	
 	math::matrix<T> state_function(math::matrix<T>&);
 	math::matrix<T> measurement_function(math::matrix<T>&);

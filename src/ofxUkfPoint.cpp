@@ -54,6 +54,18 @@ ofVec4f ofxUkfPoint_<T, D>::getEstimation()
 }
 
 template <class T, int D>
+ofVec4f ofxUkfPoint_<T, D>::getVelocity()
+{
+	matrix<T> w = measurement_function(x);
+	ofVec4f v(0, 0, 0, 0);
+	// copy w to v
+	for( int i = 0; i < D; i++ ) {
+		v[i] = w(i + D, 0);
+	}
+	return v;
+}
+
+template <class T, int D>
 matrix<T> ofxUkfPoint_<T, D>::state_function(matrix<T>& s)
 {
 	matrix<T> state(UKF<T>::n, 1);
