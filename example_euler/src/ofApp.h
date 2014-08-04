@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxUkfPoint.h"
+#include "ofxUkfEuler.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,8 +20,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	
-	ofxUkfPoint3d ukf;
+	ofxUkfEuler ukf;
 	ofMatrix4x4 m, mPredicted;
 	ofEasyCam cam;
-	ofVec3f eulerPrev;
 };

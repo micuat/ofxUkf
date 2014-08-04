@@ -152,11 +152,50 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>04EB0D73891493CDAB5D632F</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxUkfEuler.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxUkf/src/ofxUkfEuler.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>E1620586F16C195C83784F04</key>
+			<dict>
+				<key>fileRef</key>
+				<string>85EED9DC0AEA7790834DCE76</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>85EED9DC0AEA7790834DCE76</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxUkfEuler.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxUkf/src/ofxUkfEuler.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>A6DFC99A82A3C083DD2E9537</key>
 			<dict>
 				<key>children</key>
 				<array>
 					<string>26E97426A4EBF981B6C7FE5D</string>
+					<string>85EED9DC0AEA7790834DCE76</string>
+					<string>04EB0D73891493CDAB5D632F</string>
 					<string>1032AE986E395D01C05DD55C</string>
 					<string>A55CACD10FD61450907B6347</string>
 				</array>
@@ -716,6 +755,7 @@
 				<array>
 					<string>E4B69E200A3A1BDC003C02F2</string>
 					<string>E4B69E210A3A1BDC003C02F2</string>
+					<string>E1620586F16C195C83784F04</string>
 					<string>7F0A5CCB66A8B7D863F5D3E6</string>
 					<string>9AB48BE08F27B3A2ED7989E8</string>
 				</array>

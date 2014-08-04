@@ -14,24 +14,8 @@ void ofApp::update(){
 	
 	ofQuaternion q;
 	q = m.getRotate();
-	
-	ofVec3f euler = q.getEuler();
-	for( int i = 0; i < 3; i++ ) {
-		float rev = floorf((eulerPrev[i] + 180) / 360.f) * 360;
-		euler[i] += rev;
-		if( euler[i] < -90 + rev && eulerPrev[i] > 90 + rev ) euler[i] += 360;
-		else if( euler[i] > 90 + rev && eulerPrev[i] < -90 + rev ) euler[i] -= 360;
-	}
-	
-	ukf.update(euler);
-	ofVec3f eulerPredicted = ukf.getEstimation();
-	
-	mPredicted.makeIdentityMatrix();
-	mPredicted.rotate(eulerPredicted.x, 1, 0, 0);
-	mPredicted.rotate(eulerPredicted.z, 0, 0, 1);
-	mPredicted.rotate(eulerPredicted.y, 0, 1, 0);
-	
-	eulerPrev = euler;
+	ukf.update(q);
+	mPredicted.setRotate(ukf.getEstimation());
 }
 
 //--------------------------------------------------------------
